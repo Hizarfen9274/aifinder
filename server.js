@@ -8,12 +8,23 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: '*',
+    origin: 'https://aifinder-online.onrender.com',
     methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type']
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Accept']
 }));
 app.use(express.json());
 app.use(express.static('public')); // Statik dosyalar için
+
+// Hata yakalama middleware'i ekleyelim
+app.use((err, req, res, next) => {
+    console.error('Server Error:', err);
+    res.status(500).json({
+        error: 'Internal Server Error',
+        message: err.message,
+        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
+});
 
 // Ana sayfa route'u
 app.get('/', (req, res) => {
