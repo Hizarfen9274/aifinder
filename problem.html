@@ -43,3 +43,97 @@
         <p>AI Finder, ihtiyaçlarınıza uygun yapay zeka araçlarını bulmanıza yardımcı olan bir öneri sistemidir.</p>
     </div>
 </div>
+
+<script>
+async function getRecommendations() {
+    const problemText = document.getElementById('problemInput').value;
+    const recommendationsDiv = document.getElementById('recommendations');
+    
+    try {
+        // Loading mesajı göster
+        recommendationsDiv.innerHTML = '<div class="alert alert-info">Öneriler alınıyor...</div>';
+
+        const response = await fetch('/get-ai-recommendations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ problem: problemText })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        // Önerileri göster
+        let html = '<div class="row">';
+        data.recommendations.forEach(ai => {
+            html += `
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">${ai.name}</h5>
+                            <p class="card-text">${ai.description}</p>
+                            
+                            <div class="rating mb-2">
+                                <i class="fas fa-star"></i>
+                                <span>${ai.rating}/10</span>
+                            </div>
+
+                            <div class="tags mb-2">
+                                ${ai.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('')}
+                            </div>
+
+                            <div class="ai-details">
+                                <h6><i class="fas fa-users"></i> Hedef Kitle</h6>
+                                <ul>
+                                    ${ai.users.map(user => `<li>${user}</li>`).join('')}
+                                </ul>
+
+                                <h6><i class="fas fa-check-circle"></i> Özellikler</h6>
+                                <ul>
+                                    ${ai.features.map(feature => `<li>${feature}</li>`).join('')}
+                                </ul>
+
+                                <h6><i class="fas fa-exclamation-triangle"></i> Dikkat Edilecekler</h6>
+                                <ul>
+                                    ${ai.cautions.map(caution => `<li>${caution}</li>`).join('')}
+                                </ul>
+
+                                <div class="ai-pricing">
+                                    <h6><i class="fas fa-tag"></i> Fiyatlandırma</h6>
+                                    <div class="pricing-plans">
+                                        ${ai.pricing.map(plan => `
+                                            <div class="plan">
+                                                <p>${plan}</p>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <a href="${ai.link}" target="_blank" class="btn btn-primary">
+                                        <i class="fas fa-external-link-alt"></i> İncele
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        html += '</div>';
+        recommendationsDiv.innerHTML = html;
+
+    } catch (error) {
+        console.error('Error:', error);
+        recommendationsDiv.innerHTML = `
+            <div class="alert alert-danger">
+                Öneriler alınırken bir hata oluştu: ${error.message}
+            </div>
+        `;
+    }
+}
+</script>
