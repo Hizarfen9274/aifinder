@@ -1,58 +1,53 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
 require('dotenv').config();
 
 const app = express();
 
-// CORS ayarları
+// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Ana sayfa
+// Ana sayfa - HTML dosyasını public klasöründen serve et
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'problem.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Test endpoint
-app.get('/test', (req, res) => {
+app.get('/api/test', (req, res) => {
     res.json({ status: 'OK' });
 });
 
-// AI önerileri
-app.post('/recommendations', async (req, res) => {
+// Öneriler endpoint'i
+app.post('/api/recommendations', (req, res) => {
     try {
+        // Test verisi
         const testData = {
             recommendations: [
                 {
-                    name: "ChatGPT",
-                    description: "OpenAI tarafından geliştirilen güçlü bir dil modeli",
-                    rating: 9.5,
-                    tags: ["Yapay Zeka", "Sohbet", "Metin Üretimi"],
-                    features: [
-                        "Doğal dil işleme",
-                        "Metin üretimi",
-                        "Soru-cevap"
-                    ],
-                    pricing: [
-                        "Ücretsiz: Sınırlı kullanım",
-                        "Plus: $20/ay"
-                    ],
-                    link: "https://chat.openai.com"
+                    name: "Test AI",
+                    description: "Bu bir test yanıtıdır",
+                    rating: 8.5,
+                    tags: ["Test1", "Test2"],
+                    features: ["Özellik1", "Özellik2"],
+                    pricing: ["Ücretsiz", "Pro: $10"],
+                    link: "https://example.com"
                 }
             ]
         };
 
         res.json(testData);
     } catch (error) {
-        console.error('Error:', error);
         res.status(500).json({ error: error.message });
     }
 });
 
+// Port ayarı
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+
+// Server'ı başlat
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
 });
