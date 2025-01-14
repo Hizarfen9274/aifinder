@@ -4,132 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Finder</title>
-    
-    <!-- Bootstrap ve Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    
-    <!-- Bizim CSS dosyamız -->
     <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">AI Finder</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Ana Sayfa</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">Hakkında</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title">AI Araç Önerileri</h2>
-                        <p class="card-text">Probleminizi anlatın, size uygun yapay zeka araçlarını önerelim.</p>
+                        <h2>AI Araç Önerileri</h2>
                         <div class="form-group">
                             <label for="problemInput">Probleminiz:</label>
-                            <textarea class="form-control" id="problemInput" rows="3" placeholder="Örnek: Müşteri hizmetleri için chatbot arıyorum..."></textarea>
+                            <textarea class="form-control" id="problemInput" rows="3"></textarea>
                         </div>
                         <button class="btn btn-primary mt-3" onclick="getRecommendations()">Öneri Al</button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Öneriler bölümü -->
         <div id="recommendations" class="mt-4"></div>
-
-        <!-- Hakkında bölümü -->
-        <div id="about" class="mt-5">
-            <h3>Hakkında</h3>
-            <p>AI Finder, ihtiyaçlarınıza uygun yapay zeka araçlarını bulmanıza yardımcı olan bir öneri sistemidir.</p>
-        </div>
     </div>
 
     <script>
-    document.getElementById('problemInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            getRecommendations();
-        }
-    });
-
     async function getRecommendations() {
         const problemText = document.getElementById('problemInput').value;
         const recommendationsDiv = document.getElementById('recommendations');
         
         try {
-            recommendationsDiv.innerHTML = '<div class="alert alert-info">Öneriler alınıyor...</div>';
+            recommendationsDiv.innerHTML = '<div class="alert alert-info">Yükleniyor...</div>';
 
-            // Form verisi olarak gönderelim
-            const formData = new FormData();
-            formData.append('problem', problemText);
-
-            const response = await fetch('/process-request', {
+            const response = await fetch('/ai-suggest', {
                 method: 'POST',
-                body: formData
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ problem: problemText })
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
+            const result = await response.json();
             
-            let html = '<div class="row">';
-            data.recommendations.forEach(ai => {
-                html += `
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">${ai.name}</h5>
-                                <p class="card-text">${ai.description}</p>
-                                <div class="mb-3">
-                                    <span class="badge bg-primary me-2">${ai.rating}/10</span>
-                                    ${ai.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('')}
-                                </div>
-                                <div class="mb-3">
-                                    <h6 class="mb-2">Özellikler:</h6>
-                                    <ul class="list-unstyled">
-                                        ${ai.features.map(feature => `
-                                            <li><i class="fas fa-check text-success me-2"></i>${feature}</li>
-                                        `).join('')}
-                                    </ul>
-                                </div>
-                                <div class="mb-3">
-                                    <h6 class="mb-2">Fiyatlandırma:</h6>
-                                    ${ai.pricing.map(price => `<p class="mb-1"><i class="fas fa-tag me-2"></i>${price}</p>`).join('')}
-                                </div>
-                                <a href="${ai.link}" target="_blank" class="btn btn-primary">
-                                    <i class="fas fa-external-link-alt me-2"></i>İncele
-                                </a>
-                            </div>
-                        </div>
+            if (result.success) {
+                recommendationsDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        <pre>${result.data}</pre>
                     </div>
                 `;
-            });
-            html += '</div>';
-            recommendationsDiv.innerHTML = html;
+            } else {
+                throw new Error(result.error);
+            }
 
         } catch (error) {
-            console.error('Error:', error);
             recommendationsDiv.innerHTML = `
                 <div class="alert alert-danger">
-                    <h5>Üzgünüz, bir hata oluştu</h5>
-                    <p>Lütfen daha sonra tekrar deneyin.</p>
-                    <small>Teknik detay: ${error.message}</small>
+                    Hata: ${error.message}
                 </div>
             `;
         }
