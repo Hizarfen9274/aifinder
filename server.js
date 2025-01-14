@@ -17,66 +17,69 @@ app.get('/', (req, res) => {
 
 // AI önerileri
 app.post('/ai-suggest', async (req, res) => {
+    console.log('POST isteği alındı');  // TEST LOG 1
+    
     try {
-        console.log('İstek alındı:', req.body); // Debug log
-
         const { problem } = req.body;
-        const apiKey = process.env.GOOGLE_API_KEY;
-        
-        console.log('API Key:', apiKey ? 'Mevcut' : 'Eksik'); // Debug log
-        
-        const genAI = new GoogleGenerativeAI(apiKey);
+        console.log('Gelen problem:', problem);  // TEST LOG 2
+
+        // API Key kontrolü
+        if (!process.env.GOOGLE_API_KEY) {
+            console.error('API Key bulunamadı!');  // TEST LOG 3
+            throw new Error('API Key eksik');
+        }
+
+        const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+        console.log('GenAI oluşturuldu');  // TEST LOG 4
+
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        console.log('Model alındı');  // TEST LOG 5
 
-        console.log('Model oluşturuldu, istek gönderiliyor...'); // Debug log
-
-        const prompt = `Sen bir yapay zeka öneri uzmanısın. Kullanıcının problemi: ${problem}
-
-        Sadece yapay zeka araçları öner ve yanıtını tam olarak bu formatta ver:
+        const prompt = `Kullanıcının problemi: ${problem}\n\nBu probleme uygun yapay zeka araçları öner. Yanıtını kesinlikle JSON formatında ver.`;
         
-        {
-          "recommendations": [
-            {
-              "name": "AI Aracı Adı",
-              "description": "Bu araç ne işe yarar ve nasıl çalışır detaylı açıklama",
-              "rating": 8.5,
-              "tags": ["Özellik1", "Özellik2", "Kategori1"],
-              "features": ["Özellik 1", "Özellik 2"],
-              "pricing": ["Ücretsiz Plan", "Pro Plan"],
-              "link": "https://aiaraci.com"
-            }
-          ]
-        }`;
-
+        console.log('Prompt hazır, API çağrısı yapılıyor...');  // TEST LOG 6
+        
         const result = await model.generateContent(prompt);
-        console.log('API yanıtı alındı'); // Debug log
+        console.log('API yanıt verdi');  // TEST LOG 7
         
         const response = await result.response;
         const text = response.text();
-        console.log('Yanıt metni:', text.substring(0, 100) + '...'); // Debug log
-        
-        try {
-            const data = JSON.parse(text);
-            console.log('JSON başarıyla parse edildi'); // Debug log
-            res.json(data);
-        } catch (parseError) {
-            console.error('Parse hatası:', parseError); // Debug log
-            res.status(500).json({
-                error: 'AI yanıtı işlenemedi',
-                rawResponse: text
-            });
-        }
+        console.log('Alınan yanıt:', text.substring(0, 100));  // TEST LOG 8
+
+        // Test amaçlı sabit bir yanıt
+        const testResponse = {
+            recommendations: [
+                {
+                    name: "Test AI",
+                    description: "Test açıklama",
+                    rating: 8.5,
+                    tags: ["Test1", "Test2"],
+                    features: ["Özellik1", "Özellik2"],
+                    pricing: ["Ücretsiz", "Pro: $10"],
+                    link: "https://example.com"
+                }
+            ]
+        };
+
+        // Önce test yanıtını gönderelim
+        console.log('Test yanıtı gönderiliyor');  // TEST LOG 9
+        res.json(testResponse);
 
     } catch (error) {
-        console.error('Ana hata:', error); // Debug log
+        console.error('HATA:', error);  // TEST LOG 10
         res.status(500).json({
             error: 'Sunucu hatası',
-            message: error.message
+            message: error.message,
+            stack: error.stack
         });
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server ${PORT} portunda çalışıyor`);
+    console.log('Process ENV:', {
+        NODE_ENV: process.env.NODE_ENV,
+        PORT: process.env.PORT
+    });
 });
