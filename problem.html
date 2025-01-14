@@ -28,14 +28,12 @@
 
     <script>
     async function getRecommendations() {
-        console.log('Fonksiyon başladı'); // TEST 1
-
         const problemText = document.getElementById('problemInput').value;
         const recommendationsDiv = document.getElementById('recommendations');
         
-        console.log('Girilen problem:', problemText); // TEST 2
-        
         try {
+            console.log('İstek başlıyor...');  // TEST LOG 1
+            
             recommendationsDiv.innerHTML = `
                 <div class="alert alert-info">
                     <div class="d-flex align-items-center">
@@ -45,45 +43,35 @@
                 </div>
             `;
 
-            console.log('Loading mesajı gösterildi'); // TEST 3
+            console.log('Loading gösterildi');  // TEST LOG 2
 
-            const requestData = { problem: problemText };
-            console.log('Gönderilecek veri:', requestData); // TEST 4
-
-            console.log('Fetch başlıyor...'); // TEST 5
             const response = await fetch('/ai-suggest', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(requestData)
+                body: JSON.stringify({ problem: problemText })
             });
-            console.log('Fetch tamamlandı, status:', response.status); // TEST 6
+
+            console.log('Yanıt alındı:', response.status);  // TEST LOG 3
 
             if (!response.ok) {
                 const errorText = await response.text();
-                console.error('Server hatası:', {
-                    status: response.status,
-                    statusText: response.statusText,
-                    error: errorText
-                }); // TEST 7
-                throw new Error(`Server hatası: ${response.status} ${response.statusText}`);
+                console.error('Server error:', errorText);  // TEST LOG 4
+                throw new Error(`Server hatası: ${response.status}`);
             }
 
-            console.log('Response.json() başlıyor...'); // TEST 8
             const data = await response.json();
-            console.log('Alınan data:', data); // TEST 9
+            console.log('Data alındı:', data);  // TEST LOG 5
 
-            if (!data || !data.recommendations) {
-                console.error('Geçersiz data formatı:', data); // TEST 10
-                throw new Error('Sunucudan geçersiz yanıt alındı');
+            // Test: Data doğru formatta mı?
+            if (!data.recommendations || !Array.isArray(data.recommendations)) {
+                console.error('Geçersiz data formatı:', data);  // TEST LOG 6
+                throw new Error('Geçersiz yanıt formatı');
             }
 
             let html = '<div class="row">';
-            console.log('HTML oluşturuluyor...'); // TEST 11
-            
-            data.recommendations.forEach((ai, index) => {
-                console.log(`${index + 1}. öneri işleniyor:`, ai.name); // TEST 12
+            data.recommendations.forEach(ai => {
                 html += `
                     <div class="col-md-6 mb-4">
                         <div class="card h-100">
@@ -115,17 +103,16 @@
                 `;
             });
             html += '</div>';
-            console.log('HTML oluşturuldu'); // TEST 13
-
+            
+            console.log('HTML hazırlandı');  // TEST LOG 7
             recommendationsDiv.innerHTML = html;
-            console.log('İşlem tamamlandı'); // TEST 14
+            console.log('İşlem tamamlandı');  // TEST LOG 8
 
         } catch (error) {
-            console.error('HATA YAKALANDI:', {
+            console.error('HATA:', {
                 message: error.message,
-                stack: error.stack,
-                fullError: error
-            }); // TEST 15
+                stack: error.stack
+            });  // TEST LOG 9
             
             recommendationsDiv.innerHTML = `
                 <div class="alert alert-danger">
@@ -136,9 +123,6 @@
             `;
         }
     }
-
-    // Sayfa yüklendiğinde
-    console.log('Sayfa hazır'); // TEST 16
     </script>
 </body>
 </html>
