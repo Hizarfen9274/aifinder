@@ -68,33 +68,18 @@
 
     async function getRecommendations() {
         const problemText = document.getElementById('problemInput').value;
-        if (!problemText.trim()) {
-            alert('Lütfen bir problem girin');
-            return;
-        }
-
         const recommendationsDiv = document.getElementById('recommendations');
-        recommendationsDiv.innerHTML = `
-            <div class="d-flex justify-content-center">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Yükleniyor...</span>
-                </div>
-            </div>
-        `;
-
+        
         try {
-            const currentUrl = window.location.href;
-            const baseUrl = currentUrl.endsWith('/') ? currentUrl.slice(0, -1) : currentUrl;
-            
-            const response = await fetch(`${baseUrl}/recommendations`, {
+            recommendationsDiv.innerHTML = '<div class="alert alert-info">Öneriler alınıyor...</div>';
+
+            // Form verisi olarak gönderelim
+            const formData = new FormData();
+            formData.append('problem', problemText);
+
+            const response = await fetch('/process-request', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    problem: problemText,
-                    timestamp: new Date().getTime() 
-                })
+                body: formData
             });
 
             if (!response.ok) {
