@@ -18,7 +18,7 @@
                             <label for="problemInput">Probleminiz:</label>
                             <textarea class="form-control" id="problemInput" rows="3"></textarea>
                         </div>
-                        <button class="btn btn-primary mt-3" onclick="getRecommendations()">Öneri Al</button>
+                        <button onclick="getRecommendations()" class="btn btn-primary mt-3">Öneri Al</button>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
         const recommendationsDiv = document.getElementById('recommendations');
         
         try {
-            console.log('İstek başlıyor...');
+            console.log('İstek başlıyor...', window.location.href);
             
             recommendationsDiv.innerHTML = `
                 <div class="alert alert-info">
@@ -43,32 +43,28 @@
                 </div>
             `;
 
-            // Doğru endpoint'i kullanalım
-            const currentUrl = window.location.origin;
-            const apiUrl = `${currentUrl}/ai-suggest`;
-            
-            console.log('API URL:', apiUrl);
+            // URL'yi doğru şekilde oluştur
+            const baseUrl = window.location.origin;
+            console.log('Base URL:', baseUrl);
 
-            const response = await fetch(apiUrl, {
+            const response = await fetch(`${baseUrl}/ai-suggest`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ 
-                    problem: problemText,
-                    timestamp: new Date().toISOString()
-                })
+                body: JSON.stringify({ problem: problemText })
             });
 
-            console.log('Response status:', response.status);
+            console.log('Response:', response.status, response.statusText);
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const errorText = await response.text();
+                console.error('Server error:', errorText);
+                throw new Error(`Server hatası: ${response.status}`);
             }
 
             const data = await response.json();
-            console.log('Alınan data:', data);
+            console.log('Data:', data);
 
             let html = '<div class="row">';
             data.recommendations.forEach(ai => {
@@ -116,6 +112,9 @@
             `;
         }
     }
+
+    // Sayfa yüklendiğinde
+    console.log('Sayfa yüklendi, URL:', window.location.href);
     </script>
 </body>
 </html>
