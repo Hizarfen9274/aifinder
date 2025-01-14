@@ -32,8 +32,6 @@
         const recommendationsDiv = document.getElementById('recommendations');
         
         try {
-            console.log('İstek başlıyor...', window.location.href);
-            
             recommendationsDiv.innerHTML = `
                 <div class="alert alert-info">
                     <div class="d-flex align-items-center">
@@ -43,11 +41,7 @@
                 </div>
             `;
 
-            // URL'yi doğru şekilde oluştur
-            const baseUrl = window.location.origin;
-            console.log('Base URL:', baseUrl);
-
-            const response = await fetch(`${baseUrl}/ai-suggest`, {
+            const response = await fetch('/recommendations', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -55,16 +49,11 @@
                 body: JSON.stringify({ problem: problemText })
             });
 
-            console.log('Response:', response.status, response.statusText);
-
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Server error:', errorText);
-                throw new Error(`Server hatası: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
-            console.log('Data:', data);
 
             let html = '<div class="row">';
             data.recommendations.forEach(ai => {
@@ -102,19 +91,15 @@
             recommendationsDiv.innerHTML = html;
 
         } catch (error) {
-            console.error('HATA:', error);
+            console.error('Error:', error);
             recommendationsDiv.innerHTML = `
                 <div class="alert alert-danger">
                     <h5>Bir hata oluştu</h5>
                     <p>${error.message}</p>
-                    <small>Hata detayı konsola yazıldı (F12)</small>
                 </div>
             `;
         }
     }
-
-    // Sayfa yüklendiğinde
-    console.log('Sayfa yüklendi, URL:', window.location.href);
     </script>
 </body>
 </html>

@@ -16,13 +16,15 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'problem.html'));
 });
 
+// Test endpoint
+app.get('/test', (req, res) => {
+    res.json({ status: 'OK' });
+});
+
 // AI önerileri
-app.post('/ai-suggest', async (req, res) => {
-    console.log('POST isteği alındı:', req.body);
-    
+app.post('/recommendations', async (req, res) => {
     try {
-        // Test yanıtı
-        const testResponse = {
+        const testData = {
             recommendations: [
                 {
                     name: "ChatGPT",
@@ -39,40 +41,18 @@ app.post('/ai-suggest', async (req, res) => {
                         "Plus: $20/ay"
                     ],
                     link: "https://chat.openai.com"
-                },
-                {
-                    name: "Grammarly",
-                    description: "Gelişmiş gramer ve yazım kontrolü aracı",
-                    rating: 9.0,
-                    tags: ["Gramer", "Yazım", "Düzeltme"],
-                    features: [
-                        "Gramer kontrolü",
-                        "Yazım düzeltme",
-                        "Stil önerileri"
-                    ],
-                    pricing: [
-                        "Ücretsiz: Temel özellikler",
-                        "Premium: $12/ay"
-                    ],
-                    link: "https://www.grammarly.com"
                 }
             ]
         };
 
-        // JSON yanıtı gönder
-        res.setHeader('Content-Type', 'application/json');
-        res.json(testResponse);
-
+        res.json(testData);
     } catch (error) {
-        console.error('Hata:', error);
-        res.status(500).json({
-            error: 'Sunucu hatası',
-            message: error.message
-        });
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
     }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server ${PORT} portunda çalışıyor`);
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
