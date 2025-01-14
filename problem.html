@@ -28,38 +28,117 @@
 
     <script>
     async function getRecommendations() {
+        console.log('Fonksiyon başladı'); // TEST 1
+
         const problemText = document.getElementById('problemInput').value;
         const recommendationsDiv = document.getElementById('recommendations');
         
+        console.log('Girilen problem:', problemText); // TEST 2
+        
         try {
-            recommendationsDiv.innerHTML = '<div class="alert alert-info">Yükleniyor...</div>';
+            recommendationsDiv.innerHTML = `
+                <div class="alert alert-info">
+                    <div class="d-flex align-items-center">
+                        <div class="spinner-border text-primary me-3" role="status"></div>
+                        <div>Yapay zeka önerileriniz hazırlanıyor...</div>
+                    </div>
+                </div>
+            `;
 
+            console.log('Loading mesajı gösterildi'); // TEST 3
+
+            const requestData = { problem: problemText };
+            console.log('Gönderilecek veri:', requestData); // TEST 4
+
+            console.log('Fetch başlıyor...'); // TEST 5
             const response = await fetch('/ai-suggest', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ problem: problemText })
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
             });
+            console.log('Fetch tamamlandı, status:', response.status); // TEST 6
 
-            const result = await response.json();
-            
-            if (result.success) {
-                recommendationsDiv.innerHTML = `
-                    <div class="alert alert-success">
-                        <pre>${result.data}</pre>
-                    </div>
-                `;
-            } else {
-                throw new Error(result.error);
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Server hatası:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    error: errorText
+                }); // TEST 7
+                throw new Error(`Server hatası: ${response.status} ${response.statusText}`);
             }
 
+            console.log('Response.json() başlıyor...'); // TEST 8
+            const data = await response.json();
+            console.log('Alınan data:', data); // TEST 9
+
+            if (!data || !data.recommendations) {
+                console.error('Geçersiz data formatı:', data); // TEST 10
+                throw new Error('Sunucudan geçersiz yanıt alındı');
+            }
+
+            let html = '<div class="row">';
+            console.log('HTML oluşturuluyor...'); // TEST 11
+            
+            data.recommendations.forEach((ai, index) => {
+                console.log(`${index + 1}. öneri işleniyor:`, ai.name); // TEST 12
+                html += `
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">${ai.name}</h5>
+                                <p class="card-text">${ai.description}</p>
+                                <div class="mb-3">
+                                    <span class="badge bg-primary me-2">${ai.rating}/10</span>
+                                    ${ai.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('')}
+                                </div>
+                                <div class="mb-3">
+                                    <h6 class="mb-2">Özellikler:</h6>
+                                    <ul class="list-unstyled">
+                                        ${ai.features.map(feature => `
+                                            <li><i class="fas fa-check text-success me-2"></i>${feature}</li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <h6 class="mb-2">Fiyatlandırma:</h6>
+                                    ${ai.pricing.map(price => `<p class="mb-1"><i class="fas fa-tag me-2"></i>${price}</p>`).join('')}
+                                </div>
+                                <a href="${ai.link}" target="_blank" class="btn btn-primary">
+                                    <i class="fas fa-external-link-alt me-2"></i>İncele
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            console.log('HTML oluşturuldu'); // TEST 13
+
+            recommendationsDiv.innerHTML = html;
+            console.log('İşlem tamamlandı'); // TEST 14
+
         } catch (error) {
+            console.error('HATA YAKALANDI:', {
+                message: error.message,
+                stack: error.stack,
+                fullError: error
+            }); // TEST 15
+            
             recommendationsDiv.innerHTML = `
                 <div class="alert alert-danger">
-                    Hata: ${error.message}
+                    <h5>Bir hata oluştu</h5>
+                    <p>${error.message}</p>
+                    <small>Hata detayı konsola yazıldı (F12)</small>
                 </div>
             `;
         }
     }
+
+    // Sayfa yüklendiğinde
+    console.log('Sayfa hazır'); // TEST 16
     </script>
 </body>
 </html>
