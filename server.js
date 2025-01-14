@@ -18,22 +18,61 @@ app.get('/', (req, res) => {
 // AI önerileri
 app.post('/ai-suggest', async (req, res) => {
     try {
+        console.log('İstek alındı:', req.body); // Debug log
+
         const { problem } = req.body;
-        const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+        const apiKey = process.env.GOOGLE_API_KEY;
+        
+        console.log('API Key:', apiKey ? 'Mevcut' : 'Eksik'); // Debug log
+        
+        const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-        const prompt = `Kullanıcının problemi: ${problem}
-        Yapay zeka araçları öner. JSON formatında yanıt ver.`;
+        console.log('Model oluşturuldu, istek gönderiliyor...'); // Debug log
+
+        const prompt = `Sen bir yapay zeka öneri uzmanısın. Kullanıcının problemi: ${problem}
+
+        Sadece yapay zeka araçları öner ve yanıtını tam olarak bu formatta ver:
+        
+        {
+          "recommendations": [
+            {
+              "name": "AI Aracı Adı",
+              "description": "Bu araç ne işe yarar ve nasıl çalışır detaylı açıklama",
+              "rating": 8.5,
+              "tags": ["Özellik1", "Özellik2", "Kategori1"],
+              "features": ["Özellik 1", "Özellik 2"],
+              "pricing": ["Ücretsiz Plan", "Pro Plan"],
+              "link": "https://aiaraci.com"
+            }
+          ]
+        }`;
 
         const result = await model.generateContent(prompt);
+        console.log('API yanıtı alındı'); // Debug log
+        
         const response = await result.response;
         const text = response.text();
+        console.log('Yanıt metni:', text.substring(0, 100) + '...'); // Debug log
         
-        res.json({ success: true, data: text });
+        try {
+            const data = JSON.parse(text);
+            console.log('JSON başarıyla parse edildi'); // Debug log
+            res.json(data);
+        } catch (parseError) {
+            console.error('Parse hatası:', parseError); // Debug log
+            res.status(500).json({
+                error: 'AI yanıtı işlenemedi',
+                rawResponse: text
+            });
+        }
 
     } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ success: false, error: error.message });
+        console.error('Ana hata:', error); // Debug log
+        res.status(500).json({
+            error: 'Sunucu hatası',
+            message: error.message
+        });
     }
 });
 
