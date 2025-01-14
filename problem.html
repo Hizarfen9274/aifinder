@@ -43,35 +43,35 @@
                 </div>
             `;
 
-            const baseUrl = window.location.hostname === 'localhost' 
-                ? 'http://localhost:10000'
-                : 'https://aifinder-online.onrender.com';
+            // Önce test isteği yap
+            try {
+                const testResponse = await fetch('/test');
+                console.log('Test yanıtı:', await testResponse.json());
+            } catch (testError) {
+                console.error('Test hatası:', testError);
+            }
 
-            console.log('Kullanılan base URL:', baseUrl);
-
-            const response = await fetch(`${baseUrl}/ai-suggest`, {
+            // Ana istek
+            const response = await fetch('/ai-suggest', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
-                body: JSON.stringify({ problem: problemText })
+                body: JSON.stringify({ 
+                    problem: problemText,
+                    timestamp: new Date().toISOString()
+                })
             });
 
-            console.log('Yanıt alındı:', response.status);
+            console.log('Response status:', response.status);
 
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Server error:', errorText);
-                throw new Error(`Server hatası: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
-            console.log('Data alındı:', data);
-
-            if (!data.recommendations || !Array.isArray(data.recommendations)) {
-                console.error('Geçersiz data formatı:', data);
-                throw new Error('Geçersiz yanıt formatı');
-            }
+            console.log('Alınan data:', data);
 
             let html = '<div class="row">';
             data.recommendations.forEach(ai => {
@@ -106,10 +106,7 @@
                 `;
             });
             html += '</div>';
-            
-            console.log('HTML hazırlandı');
             recommendationsDiv.innerHTML = html;
-            console.log('İşlem tamamlandı');
 
         } catch (error) {
             console.error('HATA:', error);
