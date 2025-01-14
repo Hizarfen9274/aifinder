@@ -43,16 +43,13 @@
                 </div>
             `;
 
-            // Önce test isteği yap
-            try {
-                const testResponse = await fetch('/test');
-                console.log('Test yanıtı:', await testResponse.json());
-            } catch (testError) {
-                console.error('Test hatası:', testError);
-            }
+            // Doğru endpoint'i kullanalım
+            const currentUrl = window.location.origin;
+            const apiUrl = `${currentUrl}/ai-suggest`;
+            
+            console.log('API URL:', apiUrl);
 
-            // Ana istek
-            const response = await fetch('/ai-suggest', {
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
