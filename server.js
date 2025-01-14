@@ -31,17 +31,51 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'problem.html'));
 });
 
-// AI önerileri için API endpoint'i
-app.post('/get-ai-recommendations', async (req, res) => {
+// recommendations endpoint'i
+app.post('/recommendations', async (req, res) => {
     try {
         const { problem } = req.body;
         const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-        // ... geri kalan kod aynı ...
+        const prompt = `Sen bir yapay zeka öneri uzmanısın. Kullanıcının problemi: ${problem}
+
+        Sadece yapay zeka araçları öner ve yanıtını tam olarak bu formatta ver:
+        
+        {
+          "recommendations": [
+            {
+              "name": "AI Aracı Adı",
+              "description": "Kısa açıklama",
+              "rating": 8.5,
+              "tags": ["Özellik1", "Özellik2"],
+              "features": ["Detay1", "Detay2"],
+              "pricing": ["Ücretsiz Plan", "Pro Plan: $10/ay"],
+              "link": "https://aiaraci.com"
+            }
+          ]
+        }`;
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        
+        try {
+            const data = JSON.parse(text);
+            res.json(data);
+        } catch (parseError) {
+            res.status(500).json({
+                error: 'AI yanıtı işlenemedi',
+                details: text
+            });
+        }
+
     } catch (error) {
-        console.error('Hata:', error);
-        res.status(500).json({ error: 'Bir hata oluştu' });
+        console.error('Error:', error);
+        res.status(500).json({
+            error: 'Sunucu hatası',
+            message: error.message
+        });
     }
 });
 
