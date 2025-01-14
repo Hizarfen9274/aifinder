@@ -1,142 +1,159 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">AI Finder</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Ana Sayfa</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#about">Hakkında</a>
-                </li>
-            </ul>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Finder</title>
+    
+    <!-- Bootstrap ve Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <!-- Bizim CSS dosyamız -->
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">AI Finder</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Hakkında</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">AI Araç Önerileri</h2>
-                    <p class="card-text">Probleminizi anlatın, size uygun yapay zeka araçlarını önerelim.</p>
-                    <div class="form-group">
-                        <label for="problemInput">Probleminiz:</label>
-                        <textarea class="form-control" id="problemInput" rows="3" placeholder="Örnek: Müşteri hizmetleri için chatbot arıyorum..."></textarea>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">AI Araç Önerileri</h2>
+                        <p class="card-text">Probleminizi anlatın, size uygun yapay zeka araçlarını önerelim.</p>
+                        <div class="form-group">
+                            <label for="problemInput">Probleminiz:</label>
+                            <textarea class="form-control" id="problemInput" rows="3" placeholder="Örnek: Müşteri hizmetleri için chatbot arıyorum..."></textarea>
+                        </div>
+                        <button class="btn btn-primary mt-3" onclick="getRecommendations()">Öneri Al</button>
                     </div>
-                    <button class="btn btn-primary mt-3" onclick="getRecommendations()">Öneri Al</button>
                 </div>
             </div>
         </div>
+
+        <!-- Öneriler bölümü -->
+        <div id="recommendations" class="mt-4"></div>
+
+        <!-- Hakkında bölümü -->
+        <div id="about" class="mt-5">
+            <h3>Hakkında</h3>
+            <p>AI Finder, ihtiyaçlarınıza uygun yapay zeka araçlarını bulmanıza yardımcı olan bir öneri sistemidir.</p>
+        </div>
     </div>
 
-    <!-- Öneriler bölümü -->
-    <div id="recommendations" class="mt-4"></div>
-
-    <!-- Hakkında bölümü -->
-    <div id="about" class="mt-5">
-        <h3>Hakkında</h3>
-        <p>AI Finder, ihtiyaçlarınıza uygun yapay zeka araçlarını bulmanıza yardımcı olan bir öneri sistemidir.</p>
-    </div>
-</div>
-
-<script>
-async function getRecommendations() {
-    const problemText = document.getElementById('problemInput').value;
-    const recommendationsDiv = document.getElementById('recommendations');
-    
-    try {
-        recommendationsDiv.innerHTML = '<div class="alert alert-info">Öneriler alınıyor...</div>';
-
-        const response = await fetch('https://aifinder-online.onrender.com/get-ai-recommendations', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({ problem: problemText })
-        });
-
-        if (!response.ok) {
-            const errorData = await response.text();
-            throw new Error(`Server Error: ${errorData}`);
-        }
-
-        const data = await response.json();
+    <script>
+    async function getRecommendations() {
+        const problemText = document.getElementById('problemInput').value;
+        const recommendationsDiv = document.getElementById('recommendations');
         
-        // Önerileri göster
-        let html = '<div class="row">';
-        data.recommendations.forEach(ai => {
-            html += `
-                <div class="col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">${ai.name}</h5>
-                            <p class="card-text">${ai.description}</p>
-                            
-                            <div class="rating mb-2">
-                                <i class="fas fa-star"></i>
-                                <span>${ai.rating}/10</span>
-                            </div>
+        try {
+            recommendationsDiv.innerHTML = '<div class="alert alert-info">Öneriler alınıyor...</div>';
 
-                            <div class="tags mb-2">
-                                ${ai.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('')}
-                            </div>
+            const response = await fetch('https://aifinder-online.onrender.com/get-ai-recommendations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ problem: problemText })
+            });
 
-                            <div class="ai-details">
-                                <h6><i class="fas fa-users"></i> Hedef Kitle</h6>
-                                <ul>
-                                    ${ai.users.map(user => `<li>${user}</li>`).join('')}
-                                </ul>
+            if (!response.ok) {
+                const errorData = await response.text();
+                throw new Error(`Server Error: ${errorData}`);
+            }
 
-                                <h6><i class="fas fa-check-circle"></i> Özellikler</h6>
-                                <ul>
-                                    ${ai.features.map(feature => `<li>${feature}</li>`).join('')}
-                                </ul>
-
-                                <h6><i class="fas fa-exclamation-triangle"></i> Dikkat Edilecekler</h6>
-                                <ul>
-                                    ${ai.cautions.map(caution => `<li>${caution}</li>`).join('')}
-                                </ul>
-
-                                <div class="ai-pricing">
-                                    <h6><i class="fas fa-tag"></i> Fiyatlandırma</h6>
-                                    <div class="pricing-plans">
-                                        ${ai.pricing.map(plan => `
-                                            <div class="plan">
-                                                <p>${plan}</p>
-                                            </div>
-                                        `).join('')}
-                                    </div>
+            const data = await response.json();
+            
+            // Önerileri göster
+            let html = '<div class="row">';
+            data.recommendations.forEach(ai => {
+                html += `
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">${ai.name}</h5>
+                                <p class="card-text">${ai.description}</p>
+                                
+                                <div class="rating mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <span>${ai.rating}/10</span>
                                 </div>
 
-                                <div class="mt-3">
-                                    <a href="${ai.link}" target="_blank" class="btn btn-primary">
-                                        <i class="fas fa-external-link-alt"></i> İncele
-                                    </a>
+                                <div class="tags mb-2">
+                                    ${ai.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('')}
+                                </div>
+
+                                <div class="ai-details">
+                                    <h6><i class="fas fa-users"></i> Hedef Kitle</h6>
+                                    <ul>
+                                        ${ai.users.map(user => `<li>${user}</li>`).join('')}
+                                    </ul>
+
+                                    <h6><i class="fas fa-check-circle"></i> Özellikler</h6>
+                                    <ul>
+                                        ${ai.features.map(feature => `<li>${feature}</li>`).join('')}
+                                    </ul>
+
+                                    <h6><i class="fas fa-exclamation-triangle"></i> Dikkat Edilecekler</h6>
+                                    <ul>
+                                        ${ai.cautions.map(caution => `<li>${caution}</li>`).join('')}
+                                    </ul>
+
+                                    <div class="ai-pricing">
+                                        <h6><i class="fas fa-tag"></i> Fiyatlandırma</h6>
+                                        <div class="pricing-plans">
+                                            ${ai.pricing.map(plan => `
+                                                <div class="plan">
+                                                    <p>${plan}</p>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <a href="${ai.link}" target="_blank" class="btn btn-primary">
+                                            <i class="fas fa-external-link-alt"></i> İncele
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                `;
+            });
+            html += '</div>';
+            recommendationsDiv.innerHTML = html;
+
+        } catch (error) {
+            console.error('Error details:', error);
+            recommendationsDiv.innerHTML = `
+                <div class="alert alert-danger">
+                    <h5>Hata Detayı:</h5>
+                    <p>${error.message}</p>
+                    <small>Lütfen bu hatayı geliştirici ile paylaşın.</small>
                 </div>
             `;
-        });
-        html += '</div>';
-        recommendationsDiv.innerHTML = html;
-
-    } catch (error) {
-        console.error('Error details:', error);
-        recommendationsDiv.innerHTML = `
-            <div class="alert alert-danger">
-                <h5>Hata Detayı:</h5>
-                <p>${error.message}</p>
-                <small>Lütfen bu hatayı geliştirici ile paylaşın.</small>
-            </div>
-        `;
+        }
     }
-}
-</script>
+    </script>
+</body>
+</html>
