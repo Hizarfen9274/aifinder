@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIFinder - Giriş</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a73e8;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            background-color: #1557b0;
+        }
+
+        .error {
+            color: #d93025;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .success {
+            color: #34a853;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 1rem;
+            color: #1a73e8;
+            cursor: pointer;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .hero-message {
+            text-align: center;
+            margin: 2rem auto 3rem;
+            max-width: 800px;
+        }
+
+        .highlight-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #1a73e8, #3740ff, #1a73e8);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+
+        .sub-text {
+            font-size: 1.2rem;
+            color: #888888;
+            margin-top: 1rem;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .highlight-text {
+                font-size: 2rem;
+            }
+            
+            .sub-text {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AIFinder</h1>
+        
+        <!-- Dikkat çekici slogan -->
+        <div class="hero-message">
+            <div class="highlight-text">
+                <span class="gradient-text">Binlerce AI Arasında Kaybolmayın!</span>
+            </div>
+            <div class="sub-text">
+                Size en uygun yapay zeka araçlarını bulmanıza yardımcı oluyoruz.
+            </div>
+        </div>
+
+        <!-- Giriş Formu -->
+        <div id="loginForm" class="form-container active">
+            <div class="form-group">
+                <label for="loginUsername">Kullanıcı Adı veya E-posta:</label>
+                <input type="text" id="loginUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Şifre:</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <button onclick="login()">Giriş Yap</button>
+            <div class="toggle-form" onclick="toggleForms()">Hesabınız yok mu? Kayıt olun</div>
+        </div>
+
+        <!-- Kayıt Formu -->
+        <div id="registerForm" class="form-container">
+            <div class="form-group">
+                <label for="registerEmail">E-posta:</label>
+                <input type="email" id="registerEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="registerUsername">Kullanıcı Adı:</label>
+                <input type="text" id="registerUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="registerPassword">Şifre:</label>
+                <input type="password" id="registerPassword" required>
+            </div>
+            <button onclick="register()">Kayıt Ol</button>
+            <div class="toggle-form" onclick="toggleForms()">Zaten hesabınız var mı? Giriş yapın</div>
+        </div>
+
+        <div id="message"></div>
+    </div>
+
+    <script>
+        function toggleForms() {
+            document.getElementById('loginForm').classList.toggle('active');
+            document.getElementById('registerForm').classList.toggle('active');
+            document.getElementById('message').textContent = '';
+        }
+
+        async function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Input kontrolü
+            if (!username || !password) {
+                document.getElementById('message').textContent = 'Tüm alanları doldurunuz';
+                document.getElementById('message').className = 'error';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Kullanıcı bilgilerini localStorage'a kaydet
+                    localStorage.setItem('userId', data.user.id);
+                    localStorage.setItem('username', data.user.username);
+                    localStorage.setItem('email', data.user.email);
+                    
+                    // Başarı mesajı göster
+                    document.getElementById('message').textContent = 'Giriş başarılı! Yönlendiriliyorsunuz...';
+                    document.getElementById('message').className = 'success';
+                    
+                    // problem.html'e yönlendir
+                    setTimeout(() => {
+                        window.location.href = 'problem.html';
+                    }, 1000);
+                } else {
+                    // Hata mesajını göster
+                    document.getElementById('message').textContent = data.error || 'Bir hata oluştu';
+                    document.getElementById('message').className = 'error';
+                }
+            } catch (error) {
+                console.error('Giriş hatası:', error);
+                document.getElementById('message').textContent = 'Sunucu hatası: ' + error.message;
+                document.getElementById('message').className = 'error';
+            }
+        }
+
+        // Enter tuşu ile giriş yapma
+        document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+
+        async function register() {
+            const email = document.getElementById('registerEmail').value;
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            try {
+                const response = await fetch('http://localhost:3000/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('message').textContent = data.message;
+                    document.getElementById('message').className = 'success';
+                    // Kayıt başarılı - giriş formunu göster
+                    setTimeout(toggleForms, 1500);
+                } else {
+                    document.getElementById('message').textContent = data.error;
+                    document.getElementById('message').className = 'error';
+                }
+            } catch (error) {
+                document.getElementById('message').textContent = 'Bir hata oluştu';
+                document.getElementById('message').className = 'error';
+            }
+        }
+    </script>
+</body>
+</html>

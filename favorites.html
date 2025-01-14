@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIFinder - Favoriler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Genel stiller */
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        /* Navbar stilleri */
+        .navbar {
+            background: linear-gradient(135deg, #1a73e8, #3740ff);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Ana container stilleri */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .favorites-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .favorite-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .favorite-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .empty-favorites {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-favorites i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #1a73e8;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .visit-btn {
+            background: #1a73e8;
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .visit-btn:hover {
+            background: #1557b0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+        }
+
+        /* Toast stilleri */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.info {
+            border-left: 4px solid #1a73e8;
+        }
+
+        .toast.info i {
+            color: #1a73e8;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        /* AI icon stilleri */
+        .ai-icon-name {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .ai-icon {
+            font-size: 2rem;
+            background: #f0f4ff;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .update-badge {
+            background: #ff4444;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+
+        .update-indicator {
+            background: #e3f2fd;
+            color: #1a73e8;
+            padding: 0.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-robot"></i>
+                AIFinder
+            </div>
+            <div class="nav-links">
+                <a href="problem.html">
+                    <i class="fas fa-brain"></i> AI Bul
+                </a>
+                <a href="favorites.html">
+                    <i class="fas fa-star"></i> Favoriler
+                </a>
+                <a href="updates.html">
+                    <i class="fas fa-bell"></i> Güncellemeler
+                    <span class="update-count" id="updateCount">0</span>
+                </a>
+                <a href="#" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Çıkış
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="favoritesContainer" class="favorites-container">
+            <!-- Favoriler buraya yüklenecek -->
+        </div>
+    </div>
+
+    <script>
+        // Sayfa yüklendiğinde favorileri göster
+        window.onload = function() {
+            const favoriteAIs = JSON.parse(localStorage.getItem('favoriteAIs') || '{}');
+            const container = document.getElementById('favoritesContainer');
+
+            if (Object.keys(favoriteAIs).length === 0) {
+                container.innerHTML = `
+                    <div class="empty-favorites">
+                        <i class="fas fa-heart-broken"></i>
+                        <h2>Henüz favori AI'ınız yok</h2>
+                        <p>AI önerilerinden beğendiklerinizi favorilerinize ekleyebilirsiniz.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = Object.values(favoriteAIs).map(ai => `
+                <div class="favorite-card" data-ai-name="${ai.name}">
+                    ${ai.hasUpdate ? `
+                        <div class="update-indicator">
+                            <i class="fas fa-bell"></i>
+                            Yeni güncelleme
+                        </div>
+                    ` : ''}
+                    <div class="ai-icon-name">
+                        <div class="ai-icon ${ai.type || 'default'}">
+                            ${ai.icon || '🤖'}
+                        </div>
+                        <h3>${ai.name}</h3>
+                    </div>
+                    <p>${ai.description}</p>
+                    <div class="card-actions">
+                        <a href="${ai.link}" target="_blank" class="visit-btn">
+                            <i class="fas fa-external-link-alt"></i> 
+                            Siteyi Ziyaret Et
+                        </a>
+                        <button onclick="removeFromFavorites('${ai.name}')" class="remove-btn">
+                            <i class="fas fa-trash-alt"></i>
+                            Favorilerden Kaldır
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Güncellemeleri kontrol et
+            checkUpdates();
+        };
+
+        // Favorilerden kaldırma fonksiyonu
+        function removeFromFavorites(aiName) {
+            // localStorage'dan AI'ı kaldır
+            let favorites = new Set(JSON.parse(localStorage.getItem('favorites') || '[]'));
+            let savedAIs = JSON.parse(localStorage.getItem('favoriteAIs') || '{}');
+            
+            favorites.delete(aiName);
+            delete savedAIs[aiName];
+            
+            localStorage.setItem('favorites', JSON.stringify([...favorites]));
+            localStorage.setItem('favoriteAIs', JSON.stringify(savedAIs));
+
+            // Kartı animasyonlu bir şekilde kaldır
+            const card = document.querySelector(`[data-ai-name="${aiName}"]`);
+            card.style.animation = 'fadeOut 0.3s ease forwards';
+            
+            setTimeout(() => {
+                card.remove();
+                
+                // Eğer hiç favori kalmadıysa boş mesajını göster
+                if (Object.keys(savedAIs).length === 0) {
+                    document.getElementById('favoritesContainer').innerHTML = `
+                        <div class="empty-favorites">
+                            <i class="fas fa-heart-broken"></i>
+                            <h2>Henüz favori AI'ınız yok</h2>
+                            <p>AI önerilerinden beğendiklerinizi favorilerinize ekleyebilirsiniz.</p>
+                        </div>
+                    `;
+                }
+            }, 300);
+
+            // Toast mesajı göster
+            showToast('AI favorilerinizden kaldırıldı', 'info');
+        }
+
+        // Toast mesajı gösterme fonksiyonu
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas ${type === 'info' ? 'fa-info-circle' : 'fa-check-circle'}"></i>
+                ${message}
+            `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        async function checkUpdates() {
+            const userId = localStorage.getItem('userId');
+            if (!userId) return;
+
+            try {
+                const response = await fetch(`http://localhost:3000/get-ai-updates/${userId}`);
+                const updates = await response.json();
+                
+                // Güncelleme sayacını güncelle
+                document.getElementById('updateCount').textContent = updates.length;
+                
+                // Güncellemesi olan AI'ları işaretle
+                updates.forEach(update => {
+                    const card = document.querySelector(`[data-ai-name="${update.aiName}"]`);
+                    if (card) {
+                        const indicator = document.createElement('div');
+                        indicator.className = 'update-indicator';
+                        indicator.innerHTML = `
+                            <i class="fas fa-bell"></i>
+                            ${update.title}
+                        `;
+                        card.insertBefore(indicator, card.firstChild);
+                    }
+                });
+            } catch (error) {
+                console.error('Güncellemeler alınamadı:', error);
+            }
+        }
+    </script>
+</body>
+</html>
