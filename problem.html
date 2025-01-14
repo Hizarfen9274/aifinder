@@ -67,9 +67,8 @@
         try {
             recommendationsDiv.innerHTML = '<div class="alert alert-info">Öneriler alınıyor...</div>';
 
-            // URL'yi window.location.origin ile dinamik hale getirelim
-            const baseUrl = window.location.origin;
-            const response = await fetch(`${baseUrl}/get-ai-recommendations`, {
+            // Render.com URL'sini direkt kullanalım
+            const response = await fetch('https://aifinder-online.onrender.com/get-ai-recommendations', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,11 +76,16 @@
                 body: JSON.stringify({ problem: problemText })
             });
 
+            console.log('Response status:', response.status); // Debug için
+
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const errorText = await response.text();
+                console.error('Server error:', errorText); // Debug için
+                throw new Error(`Server error: ${response.status}`);
             }
 
             const data = await response.json();
+            console.log('Received data:', data); // Debug için
             
             // Önerileri göster
             let html = '<div class="row">';
@@ -147,9 +151,8 @@
             console.error('Error:', error);
             recommendationsDiv.innerHTML = `
                 <div class="alert alert-danger">
-                    Öneriler alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyin.
-                    <br>
-                    Hata detayı: ${error.message}
+                    <strong>Hata!</strong> ${error.message}
+                    <br><small>Lütfen tarayıcınızdaki ad-blocker'ı kapatıp tekrar deneyin.</small>
                 </div>
             `;
         }
