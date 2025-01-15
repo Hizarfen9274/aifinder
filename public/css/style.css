@@ -278,23 +278,42 @@ button:hover {
 }
 
 .cons {
-    background: linear-gradient(135deg, #ea4335, #dc3545);
+    background: linear-gradient(135deg, #ff4444, #cc0000);
     color: white;
     border-radius: 15px;
     padding: 2rem;
+    box-shadow: 0 5px 20px rgba(255, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
 }
 
 .cons h4 {
-    color: white;
-    font-size: 1.4rem;
+    color: #ff0000;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-shadow: 1px 1px 2px rgba(255, 0, 0, 0.2);
+}
+
+.cons h4 i {
+    color: #ff0000;
+}
+
+/* Dikkat edilecekler listesi */
+.cons ul {
+    list-style: none;
+    padding: 0;
 }
 
 .cons li {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 1rem;
-    margin: 0.5rem 0;
-    border-radius: 8px;
-    backdrop-filter: blur(5px);
+    color: #333; /* Normal metin rengi */
+    padding: 0.8rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 /* Ziyaret Butonu */
