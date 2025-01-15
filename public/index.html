@@ -97,39 +97,43 @@
                                          alt="${ai.name}">
                                     <h5 class="card-title mb-0">${ai.name}</h5>
                                 </div>
-                                <div class="mb-3">
-                                    ${displayRating(ai.rating)}
+                                <div class="rating-container">
+                                    <i class="fas fa-lightbulb rating-icon"></i>
+                                    <span class="rating-score">${ai.rating}/10</span>
                                 </div>
                                 <p class="card-text">${ai.description}</p>
                                 <div class="mb-3">
                                     ${ai.tags.map(tag => `<span class="badge">${tag}</span>`).join('')}
                                 </div>
-                                <div class="mb-3">
-                                    <h6 class="mb-2">Özellikler:</h6>
-                                    <ul class="list-unstyled">
+                                <div class="feature-section">
+                                    <h6><i class="fas fa-check-circle me-2"></i>Özellikler</h6>
+                                    <div class="feature-list">
                                         ${ai.features.map(feature => `
-                                            <li>
-                                                <i class="fas fa-check feature-positive me-2"></i>${feature}
-                                            </li>
+                                            <div class="feature-item">
+                                                <i class="fas fa-check feature-positive me-2"></i>
+                                                <span>${feature}</span>
+                                            </div>
                                         `).join('')}
-                                    </ul>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <h6 class="mb-2">Dikkat Edilmesi Gerekenler:</h6>
-                                    <ul class="list-unstyled">
+                                <div class="feature-section">
+                                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Dikkat Edilmesi Gerekenler</h6>
+                                    <div class="feature-list">
                                         ${ai.cautions ? ai.cautions.map(caution => `
-                                            <li>
-                                                <i class="fas fa-times feature-negative me-2"></i>${caution}
-                                            </li>
+                                            <div class="feature-item">
+                                                <i class="fas fa-times feature-negative me-2"></i>
+                                                <span>${caution}</span>
+                                            </div>
                                         `).join('') : ''}
-                                    </ul>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <h6 class="mb-2">Fiyatlandırma:</h6>
+                                <div class="feature-section">
+                                    <h6><i class="fas fa-tag me-2"></i>Fiyatlandırma</h6>
                                     ${ai.pricing.map(price => `
-                                        <p class="mb-1">
-                                            <i class="fas fa-tag me-2"></i>${price}
-                                        </p>
+                                        <div class="pricing-item">
+                                            <i class="fas fa-dollar-sign pricing-icon"></i>
+                                            <span>${price}</span>
+                                        </div>
                                     `).join('')}
                                 </div>
                                 <div class="prompt-example">
