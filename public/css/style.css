@@ -1,138 +1,237 @@
 :root {
     --primary: #1a73e8;
+    --primary-light: #e8f0fe;
     --secondary: #34a853;
     --danger: #ea4335;
-    --dark: #002122;
+    --warning: #fbbc04;
+    --dark: #1f1f1f;
     --light: #ffffff;
-    --background: #f5f7fa;
+    --gradient: linear-gradient(135deg, #1a73e8, #3740ff);
 }
 
 body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     margin: 0;
     padding: 0;
-    background: var(--background);
+    background: #f5f7fa;
     color: #333;
 }
 
+/* Navbar Stilleri */
 .navbar {
-    background: linear-gradient(135deg, #1a73e8, #3740ff);
+    background: var(--gradient);
     padding: 1rem 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    box-shadow: 0 4px 20px rgba(26, 115, 232, 0.2);
 }
 
 .nav-brand {
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.8rem;
     text-decoration: none;
 }
 
 .nav-brand img {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
 
-.recommendation-card {
+/* AI Öneri Kartları */
+.ai-recommendation {
     background: white;
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 30px rgba(26, 115, 232, 0.1);
     margin-bottom: 2rem;
     transition: all 0.3s ease;
+    border: 1px solid rgba(26, 115, 232, 0.1);
 }
 
-.recommendation-card:hover {
+.ai-recommendation:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 40px rgba(26, 115, 232, 0.15);
 }
 
+/* AI Başlık ve Logo */
 .ai-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-light);
 }
 
-.ai-icon-name {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.ai-icon {
+.ai-logo {
     width: 60px;
     height: 60px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f0f4ff;
+    border-radius: 15px;
+    margin-right: 1rem;
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.15);
 }
 
-.score {
+/* Puanlama */
+.ai-rating {
+    background: var(--gradient);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: #f0f4ff;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
 }
 
-.score i {
+.ai-rating i {
     color: #ffd700;
+    font-size: 1.4rem;
 }
 
-.features-section, .cautions-section {
+/* Özellikler */
+.pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.pros, .cons {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.pros {
+    border-left: 5px solid var(--secondary);
+}
+
+.cons {
+    border-left: 5px solid var(--danger);
+}
+
+.pros h4, .cons h4 {
+    color: var(--primary);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pros ul li, .cons ul li {
+    margin-bottom: 0.8rem;
+    padding: 0.8rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pros ul li {
+    background: rgba(52, 168, 83, 0.1);
+    color: var(--secondary);
+}
+
+.cons ul li {
+    background: rgba(234, 67, 53, 0.1);
+    color: var(--danger);
+}
+
+/* Fiyatlandırma */
+.pricing-plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
     margin: 1.5rem 0;
 }
 
-.features-list li, .cautions-list li {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-}
-
-.features-list li {
-    background: #f0fff4;
-    color: #0d904f;
-}
-
-.cautions-list li {
-    background: #fff0f0;
-    color: #d93025;
-}
-
-.visit-btn {
-    background: var(--primary);
-    color: white;
-    text-decoration: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+.plan {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 }
 
+.free-plan {
+    border-top: 5px solid var(--primary);
+}
+
+.pro-plan {
+    border-top: 5px solid var(--warning);
+}
+
+.enterprise-plan {
+    border-top: 5px solid var(--secondary);
+}
+
+.plan:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(26, 115, 232, 0.15);
+}
+
+.plan-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+/* Örnek Kullanım */
+.example-usage {
+    background: var(--primary-light);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.example-prompt, .example-response {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.1);
+}
+
+.example-prompt h5, .example-response h5 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.prompt-text, .response-text {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary);
+}
+
+/* Ziyaret Butonu */
+.visit-btn {
+    background: var(--gradient);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+}
+
 .visit-btn:hover {
-    background: #1557b0;
     transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(26, 115, 232, 0.4);
 }
 
 @media (max-width: 768px) {
