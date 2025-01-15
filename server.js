@@ -6,14 +6,23 @@ require('dotenv').config();
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Ana sayfa
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// Test endpoint
+app.get('/api/test', (req, res) => {
+    try {
+        res.json({
+            status: 'OK',
+            env: {
+                nodeEnv: process.env.NODE_ENV,
+                hasApiKey: !!process.env.GOOGLE_API_KEY
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 // AI önerileri
@@ -21,66 +30,53 @@ app.post('/api/recommendations', async (req, res) => {
     try {
         console.log('İstek alındı:', req.body);
 
-        const { problem } = req.body;
-        
         // API Key kontrolü
-        if (!process.env.GOOGLE_API_KEY) {
+        const apiKey = process.env.GOOGLE_API_KEY;
+        if (!apiKey) {
             console.error('API Key bulunamadı!');
-            return res.status(500).json({ error: 'API Key eksik' });
-        }
-        console.log('API Key mevcut');
-
-        // Gemini API'yi başlat
-        const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-        console.log('Model oluşturuldu');
-
-        const prompt = `Sen bir yapay zeka öneri uzmanısın. Kullanıcının problemi: ${problem}
-
-        Sadece yapay zeka araçları öner ve yanıtını tam olarak bu formatta ver:
-        
-        {
-          "recommendations": [
-            {
-              "name": "AI Aracı Adı",
-              "description": "Bu araç ne işe yarar ve nasıl çalışır detaylı açıklama",
-              "rating": 8.5,
-              "tags": ["Özellik1", "Özellik2"],
-              "features": ["Özellik 1", "Özellik 2"],
-              "pricing": ["Ücretsiz Plan", "Pro Plan"],
-              "link": "https://aiaraci.com"
-            }
-          ]
-        }`;
-
-        console.log('API isteği gönderiliyor...');
-        const result = await model.generateContent(prompt);
-        console.log('API yanıtı alındı');
-        
-        const response = await result.response;
-        const text = response.text();
-        console.log('Alınan yanıt:', text.substring(0, 100));
-        
-        try {
-            const data = JSON.parse(text);
-            console.log('JSON başarıyla parse edildi');
-            res.json(data);
-        } catch (parseError) {
-            console.error('Parse hatası:', parseError);
-            console.error('Ham yanıt:', text);
-            res.status(500).json({
-                error: 'AI yanıtı işlenemedi',
-                details: parseError.message,
-                rawResponse: text
+            return res.status(500).json({ 
+                error: 'API Key eksik',
+                env: process.env.NODE_ENV
             });
         }
 
+        // Test yanıtı
+        const testResponse = {
+            recommendations: [
+                {
+                    name: "Test AI",
+                    description: "Bu bir test yanıtıdır",
+                    rating: 8.5,
+                    tags: ["Test1", "Test2"],
+                    features: ["Özellik1", "Özellik2"],
+                    pricing: ["Ücretsiz", "Pro: $10"],
+                    link: "https://example.com"
+                }
+            ]
+        };
+
+        // Önce test yanıtını gönderelim
+        return res.json(testResponse);
+
+        /* Gerçek API çağrısını şimdilik yorum satırına alalım
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        
+        const prompt = `...`;
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        
+        const data = JSON.parse(text);
+        res.json(data);
+        */
+
     } catch (error) {
-        console.error('Ana hata:', error);
+        console.error('Hata:', error);
         res.status(500).json({
             error: 'Sunucu hatası',
             message: error.message,
-            stack: error.stack
+            env: process.env.NODE_ENV
         });
     }
 });
