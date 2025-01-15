@@ -10,8 +10,8 @@ body {
 /* Navbar stilleri */
 .navbar {
     background: linear-gradient(135deg, #1a73e8, #3740ff);
-    padding: 1rem 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 0;
+    box-shadow: 0 4px 20px rgba(26, 115, 232, 0.3);
 }
 
 .nav-container {
@@ -25,11 +25,12 @@ body {
 
 .nav-brand {
     color: white;
-    font-size: 1.5rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    display: block;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    letter-spacing: 2px;
 }
 
 .nav-links {
@@ -111,19 +112,31 @@ button:hover {
 /* AI Öneri Kartları */
 .ai-recommendation {
     background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(26, 115, 232, 0.2);
+    transition: all 0.3s ease;
+}
+
+.ai-recommendation:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(26, 115, 232, 0.2);
 }
 
 .ai-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #eee;
+    background: linear-gradient(135deg, #1a73e8, #3740ff);
+    margin: -2rem -2rem 2rem -2rem;
+    padding: 2rem;
+    border-radius: 20px 20px 0 0;
+    color: white;
+}
+
+.ai-header h3 {
+    font-size: 1.8rem;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .ai-header-left {
@@ -155,14 +168,12 @@ button:hover {
 }
 
 .ai-rating {
-    background: #f0f4ff;
-    color: #1a73e8;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 500;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .ai-description {
@@ -213,17 +224,21 @@ button:hover {
 
 /* Örnek Kullanım */
 .example-usage {
-    background: #f8f9fa;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin: 1.5rem 0;
+    background: linear-gradient(135deg, #6200ea, #3f51b5);
+    color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 30px rgba(98, 0, 234, 0.2);
 }
 
 .example-prompt, .example-response {
-    background: white;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     padding: 1.5rem;
     margin: 1rem 0;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .prompt-text, .response-text {
@@ -242,37 +257,44 @@ button:hover {
     margin: 1.5rem 0;
 }
 
-.pros, .cons {
-    background: #f8f9fa;
-    border-radius: 12px;
-    padding: 1.5rem;
-}
-
-.pros h4, .cons h4 {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+.pros {
+    background: linear-gradient(135deg, #34a853, #28a745);
+    color: white;
+    border-radius: 15px;
+    padding: 2rem;
 }
 
 .pros h4 {
-    color: #34a853;
+    color: white;
+    font-size: 1.4rem;
+}
+
+.pros li {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.cons {
+    background: linear-gradient(135deg, #ea4335, #dc3545);
+    color: white;
+    border-radius: 15px;
+    padding: 2rem;
 }
 
 .cons h4 {
-    color: #ea4335;
+    color: white;
+    font-size: 1.4rem;
 }
 
-.pros ul, .cons ul {
-    list-style: none;
-    padding: 0;
-}
-
-.pros li, .cons li {
-    padding: 0.5rem 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.cons li {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
 }
 
 /* Ziyaret Butonu */
@@ -282,20 +304,18 @@ button:hover {
 }
 
 .visit-btn {
-    background: #1a73e8;
+    background: linear-gradient(135deg, #1a73e8, #3740ff);
     color: white;
-    text-decoration: none;
-    padding: 0.8rem 2rem;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all 0.3s ease;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    box-shadow: 0 5px 20px rgba(26, 115, 232, 0.3);
 }
 
 .visit-btn:hover {
-    background: #1557b0;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(26, 115, 232, 0.4);
 }
 
 /* Loading ve Error Mesajları */
@@ -309,4 +329,37 @@ button:hover {
 
 .error {
     color: #ea4335;
+}
+
+/* Problem açıklama bölümü */
+.problem-section h2 {
+    font-size: 2.2rem;
+    color: #1a73e8;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.example-problems {
+    text-align: center;
+    margin: 2rem 0;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.example-problems strong {
+    color: #1a73e8;
+    font-size: 1.3rem;
+    display: block;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #e8f0fe;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.example-problems strong:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(26, 115, 232, 0.2);
+    background: #1a73e8;
+    color: white;
 }
