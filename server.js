@@ -41,24 +41,30 @@ app.post('/api/recommendations', async (req, res) => {
         
         const prompt = `Sen bir yapay zeka öneri uzmanısın. Kullanıcının problemi: ${problem}
 
-        Sadece yapay zeka araçları öner ve yanıtını tam olarak bu formatta ver:
-        
+        Sadece yapay zeka araçları öner. Her önerdiğin araç kesinlikle bir yapay zeka uygulaması ya da yapay zeka kullanan bir servis olmalı. Yanıtını tam olarak bu formatta ver:
+
         {
           "recommendations": [
             {
               "name": "AI Aracı Adı",
-              "description": "Bu araç ne işe yarar ve nasıl çalışır detaylı açıklama",
+              "description": "Bu yapay zeka aracı ne işe yarar ve nasıl çalışır detaylı açıklama",
               "rating": 8.5,
-              "tags": ["Özellik1", "Özellik2", "Kategori1"],
+              "tags": ["Yapay Zeka", "Kategori1", "Özellik1"],
               "features": [
-                "Özellik 1 detaylı açıklama",
-                "Özellik 2 detaylı açıklama"
+                "Pozitif özellik 1",
+                "Pozitif özellik 2"
+              ],
+              "cautions": [
+                "Dikkat edilmesi gereken nokta 1",
+                "Dikkat edilmesi gereken nokta 2"
               ],
               "pricing": [
                 "Ücretsiz Plan: Temel özellikler",
                 "Pro Plan: Premium özellikler ve fiyatı"
               ],
-              "link": "https://aiaraci.com"
+              "link": "https://aiaraci.com",
+              "examplePrompt": "Bu yapay zeka için örnek bir soru/prompt",
+              "exampleResponse": "Bu soruya yapay zekanın vereceği örnek cevap"
             }
           ]
         }`;
