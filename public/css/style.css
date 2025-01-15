@@ -1,205 +1,153 @@
 :root {
-    --primary: #1de9b6;
-    --secondary: #1d8ee9;
+    --primary: #1a73e8;
+    --secondary: #34a853;
+    --danger: #ea4335;
     --dark: #002122;
     --light: #ffffff;
+    --background: #f5f7fa;
 }
 
 body {
-    background: linear-gradient(135deg, var(--dark), #0d188a);
-    min-height: 100vh;
-    color: var(--light);
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     margin: 0;
     padding: 0;
+    background: var(--background);
+    color: #333;
 }
 
 .navbar {
-    background: rgba(0, 33, 34, 0.2);
-    backdrop-filter: blur(10px);
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(29, 233, 182, 0.1);
+    background: linear-gradient(135deg, #1a73e8, #3740ff);
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-brand {
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    color: var(--primary) !important;
-    font-size: 24px;
-    font-weight: 300;
-    letter-spacing: 1px;
+    gap: 0.5rem;
+    text-decoration: none;
 }
 
-.navbar-brand img {
-    width: 45px;
-    height: 45px;
-    margin-right: 15px;
+.nav-brand img {
+    width: 40px;
+    height: 40px;
 }
 
-.main-container {
-    padding-top: 40px;
-}
-
-.card {
-    background: rgba(0, 33, 34, 0.2);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(29, 233, 182, 0.2);
-    border-radius: 15px;
-}
-
-.card-body {
-    color: #fff;
-}
-
-.form-label {
-    color: var(--primary) !important;
-    font-size: 1.1rem;
-    font-weight: 300;
-    letter-spacing: 0.5px;
-}
-
-.form-text {
-    color: var(--light) !important;
-    opacity: 0.8;
-}
-
-.form-control {
-    background: rgba(0, 33, 34, 0.3);
-    border: 1px solid rgba(29, 233, 182, 0.2);
-    color: var(--light);
-    border-radius: 10px;
-    padding: 12px;
-}
-
-.form-control:focus {
-    background: rgba(0, 33, 34, 0.4);
-    border: 1px solid var(--primary);
-    color: var(--light);
-    box-shadow: 0 0 15px rgba(29, 233, 182, 0.2);
-}
-
-.form-control::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.btn-primary {
-    background: var(--primary);
-    border: none;
-    padding: 12px 30px;
-    border-radius: 10px;
-    font-weight: 500;
-    color: var(--dark);
+.recommendation-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
     transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
-    background: #18cca0;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(29, 233, 182, 0.3);
+.recommendation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-.ai-logo {
+.ai-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.ai-icon-name {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.ai-icon {
     width: 60px;
     height: 60px;
-    object-fit: cover;
     border-radius: 12px;
-    margin-right: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background: #1CB5E0;
-    padding: 5px;
-}
-
-.rating-container {
     display: flex;
     align-items: center;
-    margin: 15px 0;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 10px 15px;
-    border-radius: 10px;
+    justify-content: center;
+    background: #f0f4ff;
 }
 
-.rating-icon {
-    color: #FFD700;
-    font-size: 1.5rem;
-    margin-right: 10px;
-}
-
-.rating-score {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #1CB5E0;
-}
-
-.feature-section {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    border-radius: 10px;
-    margin: 15px 0;
-    border-left: 4px solid #1CB5E0;
-}
-
-.feature-section h6 {
-    color: #1CB5E0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.feature-item {
+.score {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    padding: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-}
-
-.feature-positive {
-    color: #4CAF50;
-}
-
-.feature-negative {
-    color: #F44336;
-}
-
-.badge {
-    background: rgba(28, 181, 224, 0.2);
-    color: #fff;
-    padding: 8px 15px;
-    margin: 0 5px 5px 0;
+    gap: 0.5rem;
+    background: #f0f4ff;
+    padding: 0.5rem 1rem;
     border-radius: 20px;
-    font-weight: 500;
-    border: 1px solid rgba(28, 181, 224, 0.3);
 }
 
-.prompt-example {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    border-radius: 10px;
-    margin: 15px 0;
-    border-left: 4px solid #FFD700;
+.score i {
+    color: #ffd700;
 }
 
-.pricing-item {
+.features-section, .cautions-section {
+    margin: 1.5rem 0;
+}
+
+.features-list li, .cautions-list li {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.05);
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
     border-radius: 8px;
+    margin-bottom: 0.5rem;
 }
 
-.pricing-icon {
-    color: #1CB5E0;
-    margin-right: 10px;
+.features-list li {
+    background: #f0fff4;
+    color: #0d904f;
 }
 
-.card-text, 
-.feature-item span, 
-.pricing-item span,
-.prompt-example p,
-small.text-muted {
-    color: #ffffff !important;
+.cautions-list li {
+    background: #fff0f0;
+    color: #d93025;
+}
+
+.visit-btn {
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.visit-btn:hover {
+    background: #1557b0;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .recommendation-card {
+        padding: 1.5rem;
+    }
+
+    .ai-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
 }
