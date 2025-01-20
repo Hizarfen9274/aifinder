@@ -1,161 +1,504 @@
-:root {
-    --primary-blue: #1a73e8;
-    --light-blue: #e0f7fa;
-    --light-green: #e8f5e9;
-    --light-yellow: #fffde7;
-    --dark-text: #333333;
-}
-
+/* Genel stiller */
 body {
-    background-color: #f0f8ff;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f7fa;
+    color: #333;
 }
 
-/* Logo Stilleri */
+/* Navbar stilleri */
+.navbar {
+    background: linear-gradient(135deg, #1a73e8, #3740ff);
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .nav-brand {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 10px;
+    gap: 0.5rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    color: white;
     text-decoration: none;
-}
-
-.nav-brand img {
-    width: 100px;
-    height: auto;
-    margin: 10px;
-    transition: transform 0.3s ease;
-}
-
-.nav-brand img:hover {
-    transform: scale(1.1);
-}
-
-/* AI Kartları */
-.ai-recommendation {
-    border-radius: 15px;
-    padding: 25px;
-    margin-bottom: 30px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
     transition: all 0.3s ease;
-    border: 2px solid;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-/* Farklı renklerde kartlar */
-.ai-recommendation:nth-child(3n+1) {
-    background: var(--light-blue);
-    border-color: #b3e5fc;
-    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.1);
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.ai-recommendation:nth-child(3n+2) {
-    background: var(--light-green);
-    border-color: #c8e6c9;
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.1);
+/* Ana container stilleri */
+.container {
+    max-width: 2000px;
+    width: 99%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
 }
 
-.ai-recommendation:nth-child(3n+3) {
-    background: var(--light-yellow);
-    border-color: #fff9c4;
-    box-shadow: 0 4px 15px rgba(255, 235, 59, 0.1);
+/* Problem bölümü stilleri */
+.problem-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
 }
 
-.ai-recommendation:hover {
+.input-area {
+    margin: 1.5rem 0;
+}
+
+textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 100px;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+    border-color: #1a73e8;
+    outline: none;
+}
+
+button {
+    background: #1a73e8;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #1557b0;
+    transform: translateY(-2px);
+}
+
+/* İlginç AI'lar bölümü stilleri */
+.preview-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.preview-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.preview-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+}
+
+.preview-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
-/* Kart Başlıkları */
-.ai-header {
+.preview-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.preview-icon {
+    font-size: 2rem;
+}
+
+.preview-title h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #1a73e8;
+}
+
+.preview-company {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.preview-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.preview-tag {
+    background: #f0f4ff;
+    color: #1a73e8;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.preview-category-tag {
+    background: #1a73e8;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.preview-description {
+    color: #444;
+    line-height: 1.5;
+    margin: 1rem 0;
+}
+
+.preview-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
 }
 
-.ai-header h3 {
-    color: var(--primary-blue);
-    font-size: 1.8rem;
-    margin: 0;
+.preview-date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.preview-link {
+    color: #1a73e8;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* AI Kartları */
+.card {
+    width: 100%;
+    min-width: 700px;
+    background: white;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.card-body {
+    padding: 2.5rem;
+}
+
+/* AI Başlık ve Logo */
+.ai-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eef2f6;
+}
+
+.ai-logo {
+    width: 60px;
+    height: 60px;
+    margin-right: 1rem;
+    padding: 10px;
+    background: #f8faff;
+    border-radius: 16px;
 }
 
 /* Özellikler ve Dikkat Edilecekler */
-.pros-cons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin: 20px 0;
+.feature-section {
+    background: #e8f0ff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid #1a73e8;
 }
 
-.pros h4 {
-    color: #2e7d32;
+.caution-section {
+    background: #ffe8e8;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid #dc3545;
 }
 
-.cons h4 {
-    color: #ff0000;
-    font-weight: bold;
-    font-size: 1.5rem;
+.feature-section h6, .caution-section h6 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-/* Örnek Kullanım */
-.example-usage {
-    background: white;
+.feature-item, .caution-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 12px;
-    padding: 20px;
-    margin: 20px 0;
-    border: 2px solid var(--primary-blue);
-    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.1);
+}
+
+/* Fiyatlandırma Bölümü */
+.pricing-section {
+    background: #e8ffe8;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid #34a853;
+}
+
+.pricing-section h6 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pricing-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+}
+
+/* Örnek Kullanım Bölümü */
+.example-section {
+    background: #e0e8ff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid #1a73e8;
+}
+
+.example-section h6 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.example-prompt, .example-response {
+    margin-bottom: 1rem;
+}
+
+.example-prompt h7, .example-response h7 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1a73e8;
+}
+
+.prompt-text, .response-text {
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-top: 0.5rem;
+    font-family: monospace;
+    white-space: pre-wrap;
+}
+
+.response-text {
+    border-left: 4px solid #34a853;
 }
 
 /* Butonlar */
+.card-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
 .visit-btn {
-    background: var(--primary-blue);
+    flex: 1;
+    background: #1a73e8;
     color: white;
-    padding: 12px 25px;
-    border-radius: 8px;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
     text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.2);
+    border: none;
+    font-weight: 500;
 }
 
 .visit-btn:hover {
     background: #1557b0;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(26, 115, 232, 0.3);
 }
 
-/* Başlıklar */
-h1, h2, h3, h4 {
-    color: var(--primary-blue);
-}
-
-/* Problem Açıklama Bölümü */
-.problem-section {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.1);
-    margin-bottom: 30px;
-}
-
-.problem-section h2 {
-    color: var(--primary-blue);
-    font-size: 2rem;
-    margin-bottom: 20px;
+/* Loading Spinner */
+.loading-container {
     text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    grid-column: 1 / -1;
 }
 
-/* Responsive Tasarım */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #1a73e8;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* AI Kartları Grid Sistemi */
+#recommendations {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+/* AI Tag'leri */
+.tags {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background: #f0f4ff;
+    color: #1a73e8;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* AI Kartları Grid Sistemi - Düzeltilmiş */
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(700px, 1fr));
+    gap: 3rem;
+    width: 100%;
+}
+
+/* Loading container için özel stil */
+.loading-container {
+    grid-column: 1 / -1;
+}
+
+/* Responsive tasarım */
+@media (max-width: 1600px) {
+    .recommendations-grid {
+        grid-template-columns: repeat(2, minmax(600px, 1fr));
+    }
+    .card {
+        min-width: 600px;
+    }
+}
+
 @media (max-width: 768px) {
-    .pros-cons {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .recommendations-grid {
         grid-template-columns: 1fr;
     }
     
-    .nav-brand img {
-        width: 80px;
+    .card {
+        min-width: unset;
     }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+}
+
+/* Rating stil */
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff8e6;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    width: fit-content;
+    margin-top: 0.5rem;
+}
+
+.rating i {
+    color: #ffc107;  /* Sarı renk */
+    font-size: 1rem;
+}
+
+.rating span {
+    color: #333;
+    font-weight: 600;
+    font-size: 0.9rem;
 }

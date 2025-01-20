@@ -3,54 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Finder - Yapay Zeka Öneri Aracı</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
+    <title>AIFinder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="https://app.brandmark.io/v3/logo/f985583b-d4f9-4d18-b416-6873e02a99f9.png" 
-                     alt="AI Finder Logo" 
-                     class="navbar-logo">
-                <span>AI FINDER</span>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a class="nav-brand" href="/">
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" alt="AI Logo">
+                AIFinder
             </a>
+            <div class="nav-slogan">
+                <div class="slogan-main">Yapay zeka dünyasında kaybolmayın! Size en uygun yapay zeka araçlarını bulmanıza yardımcı olalım.</div>
+            </div>
+            <div class="nav-right"></div>
         </div>
     </nav>
 
     <!-- Ana İçerik -->
-    <div class="container main-container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="problemInput" class="form-label">
-                                <i class="fas fa-search me-2"></i>
-                                İhtiyacınızı detaylı bir şekilde açıklayın
-                            </label>
-                            <small class="form-text d-block mb-2">
-                                Örnek: "Görsel üretmek için AI tool arıyorum", "Ses dosyalarını metne çevirmek istiyorum", 
-                                "Yazılarımı düzeltecek bir yapay zeka asistanı arıyorum"
-                            </small>
-                            <textarea class="form-control" id="problemInput" rows="3" 
-                                placeholder="Size en uygun yapay zeka aracını bulmamız için ihtiyacınızı detaylı bir şekilde açıklayın..."></textarea>
-                        </div>
-                        <button onclick="getRecommendations()" class="btn btn-primary mt-3">
-                            <i class="fas fa-magic me-2"></i>Öneri Al
-                        </button>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="problem-section">
+            <h2>Probleminizi Anlatın</h2>
+            <p>İhtiyacınızı ne kadar detaylı anlatırsanız, size o kadar isabetli öneriler sunabiliriz. Bütçe, kullanım amacı, özel gereksinimler gibi detayları da ekleyebilirsiniz.
+            </p>
+            <div class="input-area">
+                <textarea id="problemInput" placeholder="Örnek: Yazılarımı düzeltecek ve daha profesyonel hale getirecek bir yapay zeka arıyorum."></textarea>
+                <button onclick="getRecommendations()">
+                    <i class="fas fa-magic"></i>
+                    Öneri Al
+                </button>
             </div>
         </div>
-        <div id="recommendations" class="mt-4"></div>
+        <div id="recommendations"></div>
     </div>
 
-    <!-- Mevcut script kısmı aynı kalacak -->
+    <!-- Nasıl Çalışır bölümü -->
+    <div class="how-it-works" style="margin-top: -2rem;">
+        <h2>Nasıl Çalışır?</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-icon">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" alt="Kalem">
+                    </div>
+                    <h3>1. Probleminizi Anlatın</h3>
+                </div>
+                <p class="step-description">İhtiyacınızı veya çözmek istediğiniz problemi detaylı bir şekilde açıklayın. Örneğin:</p>
+                <ul>
+                    <li>"Sosyal medya içeriklerimi otomatik oluşturmak istiyorum"</li>
+                    <li>"Müşteri maillerini otomatik kategorize etmem gerekiyor"</li>
+                    <li>"Yazılım kodlarımı gözden geçirecek bir araç arıyorum"</li>
+                </ul>
+            </div>
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-icon">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2991/2991106.png" alt="AI">
+                    </div>
+                    <h3>2. AI Önerilerini Alın</h3>
+                </div>
+                <p class="step-description">Yapay zeka sistemi ihtiyacınıza özel olarak:</p>
+                <ul>
+                    <li>En uygun AI araçlarını seçer</li>
+                    <li>Her aracı detaylı olarak değerlendirir</li>
+                    <li>Kullanıcı deneyimlerine göre puanlar</li>
+                    <li>Fiyat ve özellik karşılaştırması sunar</li>
+                </ul>
+            </div>
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-icon">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4315/4315445.png" alt="Seç">
+                    </div>
+                    <h3>3. En İyi Seçimi Yapın</h3>
+                </div>
+                <p class="step-description">Her AI aracı için sunulan:</p>
+                <ul>
+                    <li>Detaylı özellik listesi</li>
+                    <li>Kullanım örnekleri</li>
+                    <li>Fiyatlandırma bilgisi</li>
+                    <li>Dikkat edilmesi gerekenler</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    /* Navbar stilleri */
+    .navbar {
+        padding: 1rem 2rem;
+        background: #1a73e8;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-content {
+        display: grid;
+        grid-template-columns: 200px 1fr 200px;
+        align-items: center;
+        max-width: calc(100% - 3rem);
+        margin: 0 auto;
+    }
+
+    .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: white;
+        text-decoration: none;
+    }
+
+    .nav-brand img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .nav-slogan {
+        color: white;
+        text-align: center;
+        padding: 0 1rem;
+    }
+
+    .slogan-main {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .slogan-sub {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        line-height: 1.4;
+    }
+
+    /* Nasıl Çalışır bölümü */
+    .how-it-works {
+        background: #f8faff;
+        border-radius: 20px;
+        padding: 1.5rem;
+        margin: 0 0 1.5rem 0;
+    }
+
+    .how-it-works h2 {
+        font-size: 1.3rem;
+        color: #333;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+
+    .step {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        text-align: center;
+    }
+
+    .step-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .step-icon {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        background: #e8f0fe;
+        border-radius: 50%;
+        padding: 0.5rem;
+    }
+
+    .step-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: invert(31%) sepia(98%) saturate(1946%) hue-rotate(210deg) brightness(96%) contrast(91%);
+    }
+
+    .step-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.3rem;
+        color: #1a73e8;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .step-description {
+        color: #333;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        text-align: left;
+        font-weight: 500;
+    }
+
+    .step p {
+        color: #555;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 0.8rem;
+        text-align: left;
+    }
+
+    .step ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+    }
+
+    .step ul li {
+        color: #444;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 0.8rem;
+        padding-left: 1.2rem;
+        position: relative;
+        font-weight: 500;
+    }
+
+    .step ul li::before {
+        content: "•";
+        color: #1a73e8;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    /* Responsive tasarım */
+    @media (max-width: 768px) {
+        .nav-content {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .nav-brand {
+            justify-content: center;
+        }
+        
+        .nav-right {
+            display: none;
+        }
+        
+        .steps {
+            grid-template-columns: 1fr;
+        }
+        
+        .step {
+            padding: 1rem;
+        }
+
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            padding: 0.8rem;
+        }
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500&display=swap');
+
+    .slogan-detail {
+        font-family: 'Source Code Pro', monospace;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+    </style>
+
     <script>
     function displayRating(rating) {
         const bulbs = Math.round(rating);
@@ -66,20 +300,20 @@
     }
 
     async function getRecommendations() {
-        const problemText = document.getElementById('problemInput').value;
         const recommendationsDiv = document.getElementById('recommendations');
         
-        try {
-            recommendationsDiv.innerHTML = `
-                <div class="alert">
-                    <div class="d-flex align-items-center">
-                        <div class="spinner-border text-info me-3"></div>
-                        <div>Yapay zeka önerileri hazırlanıyor...</div>
-                    </div>
-                </div>
-            `;
+        // Loading spinner göster
+        recommendationsDiv.innerHTML = `
+            <div class="loading-container">
+                <div class="spinner"></div>
+                <h3>Yapay Zeka Önerileri Hazırlanıyor</h3>
+                <p>En uygun AI araçları seçiliyor...</p>
+            </div>
+        `;
 
-            const response = await fetch('/api/recommendations', {
+        try {
+            const problemText = document.getElementById('problemInput').value;
+            const response = await fetch('http://localhost:3002/api/recommendations', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -92,78 +326,86 @@
             }
 
             const data = await response.json();
-            let html = '<div class="row">';
             
-            // Önerileri puana göre sırala
-            data.recommendations.sort((a, b) => b.rating - a.rating);
-
+            // Grid container oluştur
+            recommendationsDiv.innerHTML = '<div class="recommendations-grid"></div>';
+            const gridContainer = recommendationsDiv.querySelector('.recommendations-grid');
+            
+            // Her AI önerisi için kart oluştur
             data.recommendations.forEach(ai => {
-                html += `
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-3">
-                                    <img src="https://raw.githubusercontent.com/yourusername/aifinder-online/main/public/images/ai-cat-logo.png" 
-                                         class="ai-logo" 
-                                         alt="${ai.name}"
-                                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTI4IDIwYzI1IDAgNDcgMTAgNjQgMjUgMTYgMTYgMjUgMzggMjUgNjNzLTkgNDctMjUgNjNjLTE3IDE1LTM5IDI1LTY0IDI1cy00Ny0xMC02NC0yNWMtMTYtMTYtMjUtMzgtMjUtNjNzOS00NyAyNS02M2MxNy0xNSAzOS0yNSA2NC0yNXptMC0yMEM1NyAwIDAgNTcgMCAxMjhzNTcgMTI4IDEyOCAxMjggMTI4LTU3IDEyOC0xMjhTMTk5IDAgMTI4IDB6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyOCA2NGMyMiAwIDQwIDE4IDQwIDQwcy0xOCA0MC00MCA0MC00MC0xOC00MC00MCAxOC00MCA0MC00MHptMC0yMGMtMzMgMC02MCAyNy02MCA2MHMyNyA2MCA2MCA2MCA2MC0yNyA2MC02MC0yNy02MC02MC02MHoiLz48L3N2Zz4='"
-                                    />
-                                    <h5 class="card-title mb-0">${ai.name}</h5>
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+                cardDiv.innerHTML = `
+                    <div class="card-body">
+                        <div class="ai-header">
+                            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" class="ai-logo" alt="${ai.name}">
+                            <div>
+                                <h3>${ai.name}</h3>
+                                <div class="rating">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <span>${ai.rating}/10</span>
                                 </div>
-                                <div class="rating-container">
-                                    <i class="fas fa-lightbulb rating-icon"></i>
-                                    <span class="rating-score">${ai.rating}/10</span>
+                                <div class="tags">
+                                    ${ai.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                                 </div>
-                                <p class="card-text">${ai.description}</p>
-                                <div class="mb-3">
-                                    ${ai.tags.map(tag => `<span class="badge">${tag}</span>`).join('')}
-                                </div>
-                                <div class="feature-section">
-                                    <h6><i class="fas fa-check-circle me-2"></i>Özellikler</h6>
-                                    <div class="feature-list">
-                                        ${ai.features.map(feature => `
-                                            <div class="feature-item">
-                                                <i class="fas fa-check feature-positive me-2"></i>
-                                                <span>${feature}</span>
-                                            </div>
-                                        `).join('')}
+                            </div>
+                        </div>
+                        <div class="ai-content">
+                            <p class="description">${ai.description}</p>
+                            
+                            <div class="feature-section">
+                                <h6><i class="fas fa-check-circle"></i> Özellikler</h6>
+                                ${ai.features.map(feature => `
+                                    <div class="feature-item">
+                                        <i class="fas fa-check"></i>
+                                        <span>${feature}</span>
                                     </div>
-                                </div>
-                                <div class="feature-section">
-                                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Dikkat Edilmesi Gerekenler</h6>
-                                    <div class="feature-list">
-                                        ${ai.cautions ? ai.cautions.map(caution => `
-                                            <div class="feature-item">
-                                                <i class="fas fa-times feature-negative me-2"></i>
-                                                <span>${caution}</span>
-                                            </div>
-                                        `).join('') : ''}
+                                `).join('')}
+                            </div>
+                            
+                            <div class="caution-section">
+                                <h6><i class="fas fa-exclamation-triangle"></i> Dikkat Edilecekler</h6>
+                                ${ai.cautions.map(caution => `
+                                    <div class="caution-item">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        <span>${caution}</span>
                                     </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="pricing-section">
+                                <h6><i class="fas fa-tags"></i> Fiyatlandırma</h6>
+                                ${ai.pricing.map(price => `
+                                    <div class="pricing-item">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <span>${price}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="example-section">
+                                <h6><i class="fas fa-lightbulb"></i> Örnek Kullanım</h6>
+                                <div class="example-prompt">
+                                    <h7><i class="fas fa-comment-dots"></i> Örnek Prompt:</h7>
+                                    <div class="prompt-text">${ai.examplePrompt}</div>
                                 </div>
-                                <div class="feature-section">
-                                    <h6><i class="fas fa-tag me-2"></i>Fiyatlandırma</h6>
-                                    ${ai.pricing.map(price => `
-                                        <div class="pricing-item">
-                                            <i class="fas fa-dollar-sign pricing-icon"></i>
-                                            <span>${price}</span>
-                                        </div>
-                                    `).join('')}
+                                <div class="example-response">
+                                    <h7><i class="fas fa-robot"></i> AI Yanıtı:</h7>
+                                    <div class="response-text">${ai.exampleResponse}</div>
                                 </div>
-                                <div class="prompt-example">
-                                    <h6>Örnek Kullanım:</h6>
-                                    <p><strong>Prompt:</strong> ${ai.examplePrompt || 'Örnek mevcut değil'}</p>
-                                    <p><strong>Yanıt:</strong> ${ai.exampleResponse || 'Örnek mevcut değil'}</p>
-                                </div>
-                                <a href="${ai.link}" target="_blank" class="btn btn-primary w-100">
-                                    <i class="fas fa-external-link-alt me-2"></i>Siteye Git
+                            </div>
+                            
+                            <div class="card-actions">
+                                <a href="${ai.link}" target="_blank" class="visit-btn">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    Siteye Git
                                 </a>
                             </div>
                         </div>
                     </div>
                 `;
+                gridContainer.appendChild(cardDiv);
             });
-            html += '</div>';
-            recommendationsDiv.innerHTML = html;
 
         } catch (error) {
             console.error('Error:', error);
