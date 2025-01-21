@@ -283,6 +283,63 @@
         border-radius: 8px;
         font-weight: 500;
     }
+
+    /* Mobil responsive tasarım */
+    @media (max-width: 768px) {
+        .container {
+            width: 95%;
+            padding: 10px;
+        }
+        
+        .recommendations-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
+        }
+        
+        .card {
+            margin: 10px 0 !important;
+            padding: 15px !important;
+        }
+        
+        .ai-header {
+            flex-direction: column !important;
+            text-align: center !important;
+        }
+        
+        .ai-header img {
+            margin-bottom: 1rem !important;
+        }
+        
+        .feature-section,
+        .caution-section,
+        .pricing-section,
+        .example-section {
+            padding: 10px !important;
+        }
+        
+        .card-actions {
+            flex-direction: column !important;
+        }
+        
+        .visit-btn {
+            width: 100% !important;
+            margin: 5px 0 !important;
+        }
+        
+        .input-area {
+            flex-direction: column !important;
+        }
+        
+        .input-area button {
+            width: 100% !important;
+            margin-top: 10px !important;
+        }
+        
+        #problemInput {
+            width: 100% !important;
+            margin-bottom: 10px !important;
+        }
+    }
     </style>
 
     <script>
