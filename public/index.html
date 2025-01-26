@@ -471,6 +471,15 @@
             `;
         }
     }
+
+    // Textarea'ya event listener ekle
+    document.getElementById('problemInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault(); // Normal enter davranışını engelle
+            getRecommendations(); // Öneri al
+        }
+        // Shift + Enter durumunda normal davranış devam eder (alt satıra geçer)
+    });
     </script>
 </body>
 </html>
