@@ -365,6 +365,9 @@
             </div>
         `;
 
+        // Yükleme ekranına otomatik kaydır
+        recommendationsDiv.scrollIntoView({ behavior: 'smooth' });
+
         try {
             const problemText = document.getElementById('problemInput').value;
             const response = await fetch('/api/recommendations', {
