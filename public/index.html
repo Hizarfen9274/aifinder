@@ -510,10 +510,10 @@
     });
     </script>
 
-    <!-- Footer'ı body kapanış tag'inden önce ekleyelim -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2024 AIFinder | Developed by İbrahim Dinçsoy</p>
+            <p>© 2024 AIFinder | Developed by <a href="https://www.linkedin.com/in/ibrahim-dinçsoy-415090223" target="_blank" class="footer-link">İbrahim Dinçsoy</a></p>
         </div>
     </footer>
 
@@ -537,6 +537,17 @@
         color: #666;
         font-size: 0.9rem;
         margin: 0;
+    }
+
+    .footer-link {
+        color: #1a73e8;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .footer-link:hover {
+        color: #1557b0;
+        text-decoration: underline;
     }
 
     @media (max-width: 768px) {
