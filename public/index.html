@@ -509,5 +509,42 @@
         // Shift + Enter durumunda normal davranış devam eder (alt satıra geçer)
     });
     </script>
+
+    <!-- Footer'ı body kapanış tag'inden önce ekleyelim -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2024 AIFinder | Developed by İbrahim Dinçsoy</p>
+        </div>
+    </footer>
+
+    <style>
+    /* Footer stilleri */
+    .footer {
+        background: #f8f9fa;
+        padding: 20px 0;
+        margin-top: 50px;
+        text-align: center;
+        border-top: 1px solid #eee;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer p {
+        color: #666;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        .footer {
+            padding: 15px 0;
+            margin-top: 30px;
+        }
+    }
+    </style>
 </body>
 </html>
